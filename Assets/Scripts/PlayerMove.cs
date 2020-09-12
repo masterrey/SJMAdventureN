@@ -10,6 +10,9 @@ public class PlayerMove : MonoBehaviour
     GameObject gamecamera;
     public GameObject cameraAim;
 
+    public delegate void WantToBoard();
+    public WantToBoard wantToBoard;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +25,10 @@ public class PlayerMove : MonoBehaviour
         mov = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         cameraAim.transform.forward = gamecamera.transform.forward;
 
-        
+        if (Input.GetButtonDown("Fire2"))
+        {
+            wantToBoard();
+        }
     }
 
     private void FixedUpdate()
