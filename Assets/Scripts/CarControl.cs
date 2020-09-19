@@ -14,6 +14,7 @@ public class CarControl : MonoBehaviour
     public Rigidbody rdb;
     public AudioSource aud;
     public bool onBoard = false;
+    public Transform SteeringWeel;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +24,7 @@ public class CarControl : MonoBehaviour
     {
         if (onBoard)
         mov = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        SteeringWeel.localRotation = Quaternion.Euler(24, 0, mov.x * -150);
     }
 
 
@@ -40,11 +42,11 @@ public class CarControl : MonoBehaviour
 
         TD.motorTorque = MotorTorque * mov.z;
         TE.motorTorque = MotorTorque * mov.z;
-        DD.steerAngle = mov.x * 30;
-        DE.steerAngle = mov.x * 30;
+        DD.steerAngle = mov.x * 40;
+        DE.steerAngle = mov.x * 40;
 
-        DD.brakeTorque = brake;
-        DE.brakeTorque = brake;
+        DD.brakeTorque = brake*2;
+        DE.brakeTorque = brake*2;
         TD.brakeTorque = brake;
         TE.brakeTorque = brake;
     }

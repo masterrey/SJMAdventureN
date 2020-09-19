@@ -9,20 +9,67 @@ public class WeaponControl : MonoBehaviour
     public VisualEffect vfxmuzzle;
     public VisualEffect vfxricochete;
     public AudioSource source;
+    public GameObject rifle;
+    bool fire;
+    public enum State
+    {
+        NoWeapon,
+        Pistol,
+        Rifle,
+        Bazooka,
+        Boomb
+
+    }
+    public State state;
     // Start is called before the first frame update
     void Start()
     {
+        ChangeState();
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    IEnumerator NoWeapon()
+    {
+        rifle.SetActive(false);
+        while (state == State.NoWeapon)
+        {
+            yield return new WaitForFixedUpdate();
+        }
+        ChangeState();
+    }
+
+    IEnumerator Rifle()
+    {
+        rifle.SetActive(true);
+        while (state == State.Rifle)
+        {
+            yield return new WaitForEndOfFrame();
+
+            if (!anim.GetBool("Shoot") && fire)
+            {
+                StartCoroutine(ShootSingle());
+            }
+        }
+        ChangeState();
+    }
+
+    void ChangeState()
+    {
+        StopAllCoroutines();
+        StartCoroutine(state.ToString());
+    }
+    public void ChangeState(State mystate)
+    {
+        state = mystate;
+        StopAllCoroutines();
+        StartCoroutine(mystate.ToString());
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!anim.GetBool("Shoot") && Input.GetButtonDown("Fire1"))
-        {
-            StartCoroutine(ShootSingle());
-        }
 
+        fire = Input.GetButtonDown("Fire1");
 
     }
 
