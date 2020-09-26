@@ -30,10 +30,15 @@ public class BoardControl : MonoBehaviour
         playerMove.transform.localRotation = Quaternion.identity;
         // playerMove.gameObject.SetActive(false);
         StartCoroutine("CloseDoor");
-        carControl.onBoard = true;
+        CallToBoard();
         playerMove.wantToBoard = null;
         mySterringWheel = sterringWheel;
         return true;
+    }
+
+    protected virtual void CallToBoard()
+    {
+        carControl.onBoard = true;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -65,7 +70,9 @@ public class BoardControl : MonoBehaviour
             yield return new WaitForFixedUpdate();
 
             time += Time.fixedDeltaTime*2;
-            door.transform.localRotation = Quaternion.Lerp(Quaternion.Euler(0, 0, 0), Quaternion.Euler(0, 60, 0),time);
+            door.transform.localRotation = 
+                Quaternion.Lerp(Quaternion.Euler(door.transform.localRotation.x, 0, door.transform.localRotation.z)
+                , Quaternion.Euler(door.transform.localRotation.x, 60, door.transform.localRotation.z),time);
         }
     }
 
@@ -78,9 +85,9 @@ public class BoardControl : MonoBehaviour
             yield return new WaitForFixedUpdate();
 
             ang -= Time.fixedDeltaTime*200;
-            door.transform.localRotation = Quaternion.Euler(0, ang, 0);
+            door.transform.localRotation = Quaternion.Euler(door.transform.localRotation.x, ang, door.transform.localRotation.z);
         }
         doorsource.PlayOneShot(close);
-        door.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        door.transform.localRotation = Quaternion.Euler(door.transform.localRotation.x, 0, door.transform.localRotation.z);
     }
 }
