@@ -23,8 +23,14 @@ public class CarControl : MonoBehaviour
     private void Update()
     {
         if (onBoard)
-        mov = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        SteeringWeel.localRotation = Quaternion.Euler(24, 0, mov.x * -150);
+        {
+            mov = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            SteeringWeel.localRotation = Quaternion.Euler(24, 0, mov.x * -150);
+        }
+        else
+        {
+            mov = new Vector3(mov.x, 0, 0);
+        }
     }
 
 

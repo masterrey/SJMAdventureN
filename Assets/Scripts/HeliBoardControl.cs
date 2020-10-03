@@ -5,9 +5,9 @@ using UnityEngine;
 public class HeliBoardControl : BoardControl
 {
     public HeliControl heliControl;
-    protected override void CallToBoard()
+    protected override void CallToBoard(bool onboard)
     {
-        heliControl.onBoard = true;
+        heliControl.onBoard = onboard;
     }
     IEnumerator OpenDoor()
     {

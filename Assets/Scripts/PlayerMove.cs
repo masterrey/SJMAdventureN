@@ -10,9 +10,9 @@ public class PlayerMove : MonoBehaviour
     GameObject gamecamera;
     public GameObject cameraAim;
 
-    public delegate bool WantToBoard(out Transform tranf);
-    public WantToBoard wantToBoard;
-
+    public delegate bool WantTo(out Transform tranf);
+    public WantTo wantToBoard;
+    public WantTo wantToOffBoard;
     public enum State
     {
         Combat,
@@ -53,6 +53,7 @@ public class PlayerMove : MonoBehaviour
 
     IEnumerator Board()
     {
+        print("entrando");
         GetComponent<WeaponControl>().ChangeState(WeaponControl.State.NoWeapon);
         rdb.isKinematic = true;
         Collider[] cols = GetComponentsInChildren<Collider>();
@@ -61,6 +62,7 @@ public class PlayerMove : MonoBehaviour
             col.enabled = false;
         }
         anim.SetBool("Board", true);
+
         while (state == State.Board)
         {
             cameraAim.transform.forward = gamecamera.transform.forward;
@@ -68,8 +70,14 @@ public class PlayerMove : MonoBehaviour
             yield return new WaitForFixedUpdate();
            
         }
+        print("saindo");
         GetComponent<WeaponControl>().ChangeState(WeaponControl.State.Rifle);
+        rdb.isKinematic = false;
         anim.SetBool("Board", false);
+        foreach (Collider col in cols)
+        {
+            col.enabled = true;
+        }
         ChangeState();
     }
 
@@ -84,13 +92,13 @@ public class PlayerMove : MonoBehaviour
 
     void ChangeState()
     {
-        StopAllCoroutines();
+       // StopAllCoroutines();
         StartCoroutine(state.ToString());
     }
     void ChangeState(State mystate)
     {
         state = mystate;
-        StopAllCoroutines();
+        //StopAllCoroutines();
         StartCoroutine(mystate.ToString());
     }
 
@@ -102,10 +110,21 @@ public class PlayerMove : MonoBehaviour
         mov = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         if (Input.GetButtonDown("Fire2"))
         {
-            if (wantToBoard(out Transform mysteringWheel))
+            if (state == State.Board)
             {
-                sterringWeell = mysteringWheel;
-                ChangeState(State.Board);
+                if (wantToOffBoard(out Transform mysteringWheel))
+                { 
+                    sterringWeell = null;
+                    ChangeState(State.Combat);
+                }
+            }
+            else
+            {
+                if (wantToBoard(out Transform mysteringWheel))
+                {
+                    sterringWeell = mysteringWheel;
+                    ChangeState(State.Board);
+                }
             }
         }
 

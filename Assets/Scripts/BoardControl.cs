@@ -11,6 +11,8 @@ public class BoardControl : MonoBehaviour
     public Transform sterringWheel;
     public AudioSource doorsource;
     public AudioClip open, close;
+    bool waitingdoor = false;
+  
     // Start is called before the first frame update
     void Start()
     {
@@ -30,15 +32,29 @@ public class BoardControl : MonoBehaviour
         playerMove.transform.localRotation = Quaternion.identity;
         // playerMove.gameObject.SetActive(false);
         StartCoroutine("CloseDoor");
-        CallToBoard();
+        CallToBoard(true);
         playerMove.wantToBoard = null;
         mySterringWheel = sterringWheel;
+        playerMove.wantToOffBoard = TryingToOffBoard;
+        playerMove.wantToBoard = null;
         return true;
     }
 
-    protected virtual void CallToBoard()
+    public bool TryingToOffBoard(out Transform mySterringWheel)
     {
-        carControl.onBoard = true;
+        playerMove.transform.parent = null;
+        playerMove.transform.position = transform.position+transform.right*-2;
+        playerMove.transform.localRotation = Quaternion.identity;
+        StartCoroutine("OpenDoor");
+        CallToBoard(false);
+        playerMove.wantToBoard = null;
+        mySterringWheel = null;
+        return true;
+    }
+
+    protected virtual void CallToBoard(bool onboard)
+    {
+        carControl.onBoard = onboard;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -46,6 +62,7 @@ public class BoardControl : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
+            if (waitingdoor) return;
             StartCoroutine("OpenDoor");
             playerMove = other.gameObject.GetComponent<PlayerMove>();
             playerMove.wantToBoard = TryingToBoard;
@@ -53,41 +70,51 @@ public class BoardControl : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (playerMove)
+        if (other.CompareTag("Player") && playerMove)
         {
+            if (waitingdoor) return;
             StartCoroutine("CloseDoor");
-            playerMove.wantToBoard = null;
             playerMove = null;
         }
     }
 
     IEnumerator OpenDoor()
     {
-        float time = 0;
-        doorsource.PlayOneShot(open);
-        while (time <= 1)
+
+        waitingdoor = true;
+
+        float ang = door.transform.localRotation.eulerAngles.y;
+
+        while (ang <= 60)
         {
             yield return new WaitForFixedUpdate();
 
-            time += Time.fixedDeltaTime*2;
-            door.transform.localRotation = 
-                Quaternion.Lerp(Quaternion.Euler(door.transform.localRotation.x, 0, door.transform.localRotation.z)
-                , Quaternion.Euler(door.transform.localRotation.x, 60, door.transform.localRotation.z),time);
+            ang += Time.fixedDeltaTime * 200;
+            door.transform.localRotation = Quaternion.Euler(door.transform.localRotation.eulerAngles.x, ang, door.transform.localRotation.eulerAngles.z);
         }
+        doorsource.PlayOneShot(open);
+       
+        waitingdoor = false;
+
     }
 
     IEnumerator CloseDoor()
     {
-        float ang = 60;
-        
+       
+        waitingdoor = true;
+       
+        float ang = door.transform.localRotation.eulerAngles.y;
+       
         while (ang >= 0)
         {
             yield return new WaitForFixedUpdate();
 
             ang -= Time.fixedDeltaTime*200;
-            door.transform.localRotation = Quaternion.Euler(door.transform.localRotation.x, ang, door.transform.localRotation.z);
+            door.transform.localRotation = Quaternion.Euler(door.transform.localRotation.eulerAngles.x, ang, door.transform.localRotation.eulerAngles.z);
         }
         doorsource.PlayOneShot(close);
-        door.transform.localRotation = Quaternion.Euler(door.transform.localRotation.x, 0, door.transform.localRotation.z);
+        door.transform.localRotation = Quaternion.Euler(door.transform.localRotation.eulerAngles.x, 0, door.transform.localRotation.eulerAngles.z);
+        waitingdoor = false;
+       
     }
 }

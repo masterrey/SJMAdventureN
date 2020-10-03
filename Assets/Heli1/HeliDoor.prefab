@@ -407,6 +407,7 @@ GameObject:
   - component: {fileID: 8689383218768995996}
   - component: {fileID: 7744908909053664194}
   - component: {fileID: 1908118442128584333}
+  - component: {fileID: 4196512992757846975}
   m_Layer: 0
   m_Name: Top_rotor.001
   m_TagString: Untagged
@@ -475,6 +476,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &4196512992757846975
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3329980650054678366}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4964781478217880059, guid: e7f66e9e93ca7ec4cbd9341657c7dae5, type: 3}
 --- !u!1 &3444521016772437565
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,6 +680,7 @@ GameObject:
   - component: {fileID: 3676201267564726659}
   - component: {fileID: 2814477107479129442}
   - component: {fileID: 2814477107479129443}
+  - component: {fileID: 1616571217}
   m_Layer: 0
   m_Name: HeliDoor
   m_TagString: Untagged
@@ -709,6 +725,7 @@ MonoBehaviour:
   doorsource: {fileID: 3444521016772437566}
   open: {fileID: 8300000, guid: 16c32dd58d166d946a6720719a5e6ac5, type: 3}
   close: {fileID: 8300000, guid: 2a1268d09aff49144931a50d9092ff5d, type: 3}
+  heliControl: {fileID: 2814477107479129443}
 --- !u!65 &3676201267564726659
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -732,7 +749,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1500
   m_Drag: 1
-  m_AngularDrag: 4
+  m_AngularDrag: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
@@ -750,6 +767,111 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89b46385ab845514bb357bbbbdfe5c53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotor: {fileID: 3329980650054678366}
+  tailrotor: {fileID: 0}
+  MotorTorque: 14000
+  rdb: {fileID: 2814477107479129442}
+  aud: {fileID: 0}
+  onBoard: 0
+  manche: {fileID: 0}
+  motorpower: 0
+  helisound: {fileID: 1616571217}
+--- !u!82 &1616571217
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3676201267564726657}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 2b6336cfe7cb38d4ead30ae3a20ca2c7, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 0
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 50
+  MaxDistance: 2000
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.094444446
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &4235728884623779072
 GameObject:
   m_ObjectHideFlags: 0
