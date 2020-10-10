@@ -13,6 +13,7 @@ public class PlayerMove : MonoBehaviour
     public delegate bool WantTo(out Transform tranf);
     public WantTo wantToBoard;
     public WantTo wantToOffBoard;
+    public IKfoot ikfoot;
     public enum State
     {
         Combat,
@@ -44,7 +45,7 @@ public class PlayerMove : MonoBehaviour
             anim.SetFloat("Walk", locVel.z);
             anim.SetFloat("SideWalk", locVel.x + radtogo);
             anim.SetFloat("Speed", rdb.velocity.magnitude + Mathf.Abs(radtogo));
-
+            ikfoot.ikforce = Mathf.Clamp((1 - mov.magnitude),0.3f,0.7f);
             yield return new WaitForFixedUpdate();
 
         }
@@ -59,7 +60,8 @@ public class PlayerMove : MonoBehaviour
         Collider[] cols = GetComponentsInChildren<Collider>();
         foreach(Collider col in cols)
         {
-            col.enabled = false;
+            //col.enabled = false;
+            col.isTrigger = true;
         }
         anim.SetBool("Board", true);
 
@@ -76,7 +78,8 @@ public class PlayerMove : MonoBehaviour
         anim.SetBool("Board", false);
         foreach (Collider col in cols)
         {
-            col.enabled = true;
+            //col.enabled = true;
+            col.isTrigger = false;
         }
         ChangeState();
     }

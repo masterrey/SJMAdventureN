@@ -748,7 +748,7 @@ Rigidbody:
   m_GameObject: {fileID: 3676201267564726657}
   serializedVersion: 2
   m_Mass: 1500
-  m_Drag: 1
+  m_Drag: 0.5
   m_AngularDrag: 1
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -768,12 +768,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotor: {fileID: 3329980650054678366}
-  tailrotor: {fileID: 0}
+  tailrotor: {fileID: 5731007990034947203}
   MotorTorque: 14000
   rdb: {fileID: 2814477107479129442}
   aud: {fileID: 0}
   onBoard: 0
-  manche: {fileID: 0}
+  manche: {fileID: 1444377399050065611}
   motorpower: 0
   helisound: {fileID: 1616571217}
 --- !u!82 &1616571217

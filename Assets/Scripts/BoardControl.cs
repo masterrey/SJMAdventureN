@@ -27,6 +27,8 @@ public class BoardControl : MonoBehaviour
 
     public bool TryingToBoard(out Transform mySterringWheel)
     {
+        transform.parent = null;
+        DontDestroyOnLoad(gameObject);
         playerMove.transform.parent = carSeat;
         playerMove.transform.localPosition = Vector3.zero;
         playerMove.transform.localRotation = Quaternion.identity;
