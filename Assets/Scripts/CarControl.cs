@@ -15,6 +15,7 @@ public class CarControl : MonoBehaviour
     public AudioSource aud;
     public bool onBoard = false;
     public Transform SteeringWeel;
+    public int gear = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +27,15 @@ public class CarControl : MonoBehaviour
         {
             mov = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             SteeringWeel.localRotation = Quaternion.Euler(24, 0, mov.x * -150);
+            if (Input.GetButtonDown("Fire1"))
+            {
+                gear++;
+            }
+            if (Input.GetButtonDown("Fire3"))
+            {
+                gear--;
+            }
+            gear = Mathf.Clamp(gear,-1, 1);
         }
         else
         {
@@ -46,14 +56,16 @@ public class CarControl : MonoBehaviour
         float motorrpm =1 + Mathf.Abs(mov.z) / 10 + (TD.rpm + TE.rpm) / 2000;
         aud.pitch = Mathf.Clamp(motorrpm,1,2f);
 
-        TD.motorTorque = MotorTorque * mov.z;
-        TE.motorTorque = MotorTorque * mov.z;
+        TD.motorTorque = MotorTorque * mov.z* gear;
+        TE.motorTorque = MotorTorque * mov.z* gear;
         DD.steerAngle = mov.x * 40;
         DE.steerAngle = mov.x * 40;
 
-        DD.brakeTorque = brake*2;
-        DE.brakeTorque = brake*2;
-        TD.brakeTorque = brake;
-        TE.brakeTorque = brake;
+       
+            DD.brakeTorque = brake * 2;
+            DE.brakeTorque = brake * 2;
+            TD.brakeTorque = brake;
+            TE.brakeTorque = brake;
+        
     }
 }
