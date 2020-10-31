@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Checkpoint
+  - PlayerRadar
+  - Waypoint
+  - PlayerDelete
   layers:
   - Default
   - TransparentFX

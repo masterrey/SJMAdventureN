@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Cinemachine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ public class PlayerMove : MonoBehaviour
     public WantTo wantToBoard;
     public WantTo wantToOffBoard;
     public IKfoot ikfoot;
+    public CinemachineFreeLook cam1,cam2;
     public enum State
     {
         Combat,
@@ -55,6 +57,8 @@ public class PlayerMove : MonoBehaviour
     IEnumerator Board()
     {
         print("entrando");
+        cam1.enabled = false;
+        cam2.enabled = true;
         GetComponent<WeaponControl>().ChangeState(WeaponControl.State.NoWeapon);
         rdb.isKinematic = true;
         Collider[] cols = GetComponentsInChildren<Collider>();
@@ -81,6 +85,8 @@ public class PlayerMove : MonoBehaviour
             //col.enabled = true;
             col.isTrigger = false;
         }
+        cam2.enabled = false;
+        cam1.enabled = true;
         ChangeState();
     }
 
