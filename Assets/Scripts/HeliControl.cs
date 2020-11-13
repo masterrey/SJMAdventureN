@@ -23,6 +23,8 @@ public class HeliControl : MonoBehaviour
     }
     void Update()
     {
+        if (Time.timeScale < 0.1f)
+        return; 
         motorpower = Mathf.Clamp01(motorpower);
         rotor.transform.Rotate(0, 44 * motorpower, 0);
         helisound.pitch = motorpower;

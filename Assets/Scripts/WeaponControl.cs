@@ -25,7 +25,7 @@ public class WeaponControl : MonoBehaviour
     void Start()
     {
         ChangeState();
-        Cursor.lockState = CursorLockMode.Locked;
+     
     }
 
     IEnumerator NoWeapon()

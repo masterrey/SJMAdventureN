@@ -117,7 +117,7 @@ namespace UnityTemplateProjects
             Vector3 translation = Vector3.zero;
 
 #if ENABLE_LEGACY_INPUT_MANAGER
-
+            /*
             // Exit Sample  
             if (Input.GetKey(KeyCode.Escape))
             {
@@ -126,6 +126,7 @@ namespace UnityTemplateProjects
 				UnityEditor.EditorApplication.isPlaying = false; 
 				#endif
             }
+            */
             // Hide and lock cursor when right mouse button pressed
             if (Input.GetMouseButtonDown(1))
             {
