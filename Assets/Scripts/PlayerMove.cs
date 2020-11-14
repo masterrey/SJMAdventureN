@@ -25,6 +25,7 @@ public class PlayerMove : MonoBehaviour
     public State state;
 
     Transform sterringWeell;
+    public Transform grabedob;
 
     // Start is called before the first frame update
     void Start()
@@ -141,19 +142,29 @@ public class PlayerMove : MonoBehaviour
 
     private void OnAnimatorIK(int layerIndex)
     {
-       anim.SetBoneLocalRotation(HumanBodyBones.Spine,cameraAim.transform.localRotation);
+        anim.SetBoneLocalRotation(HumanBodyBones.Spine, cameraAim.transform.localRotation);
 
         if (sterringWeell)
         {
-            anim.SetIKPosition(AvatarIKGoal.RightHand, sterringWeell.position+ sterringWeell.right*0.2f- sterringWeell.forward*0.1f);
+            anim.SetIKPosition(AvatarIKGoal.RightHand, sterringWeell.position + sterringWeell.right * 0.2f - sterringWeell.forward * 0.1f);
             anim.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
             anim.SetIKPosition(AvatarIKGoal.LeftHand, sterringWeell.position - sterringWeell.right * 0.2f - sterringWeell.forward * 0.1f);
             anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
 
-            anim.SetIKRotation(AvatarIKGoal.RightHand, sterringWeell.rotation*Quaternion.Euler(0,0,-90));
+            anim.SetIKRotation(AvatarIKGoal.RightHand, sterringWeell.rotation * Quaternion.Euler(0, 0, -90));
             anim.SetIKRotationWeight(AvatarIKGoal.RightHand, 1);
             anim.SetIKRotation(AvatarIKGoal.LeftHand, sterringWeell.rotation * Quaternion.Euler(0, 0, 90));
             anim.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
+        }
+
+
+        if (grabedob)
+        {
+            print("dsd");
+            // anim.SetIKPosition(AvatarIKGoal.RightHand, sterringWeell.position + sterringWeell.right * 0.2f - sterringWeell.forward * 0.1f);
+            //anim.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
+            anim.SetIKPosition(AvatarIKGoal.LeftHand, grabedob.transform.position);
+            anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
         }
     }
 }

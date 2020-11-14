@@ -8,6 +8,7 @@ TagManager:
   - PlayerRadar
   - Waypoint
   - PlayerDelete
+  - Grab
   layers:
   - Default
   - TransparentFX
